@@ -1073,8 +1073,7 @@ bool ProfileCompilationInfo::Load(
   }
 }
 
-bool ProfileCompilationInfo::VerifyProfileData(const std::vector<const DexFile*>& /*dex_files*/) {
-#if 0
+bool ProfileCompilationInfo::VerifyProfileData(const std::vector<const DexFile*>& dex_files) {
   std::unordered_map<std::string, const DexFile*> key_to_dex_file;
   for (const DexFile* dex_file : dex_files) {
     key_to_dex_file.emplace(GetProfileDexFileKey(dex_file->GetLocation()), dex_file);
@@ -1087,13 +1086,13 @@ bool ProfileCompilationInfo::VerifyProfileData(const std::vector<const DexFile*>
     }
     const DexFile* dex_file = it->second;
     const std::string& dex_location = dex_file->GetLocation();
-    /*if (!ChecksumMatch(dex_data->checksum, dex_file->GetLocationChecksum())) {
+    if (!ChecksumMatch(dex_data->checksum, dex_file->GetLocationChecksum())) {
       LOG(ERROR) << "Dex checksum mismatch while verifying profile "
                  << "dex location " << dex_location << " (checksum="
                  << dex_file->GetLocationChecksum() << ", profile checksum="
                  << dex_data->checksum;
       return false;
-    }*/
+    }
 
     if (dex_data->num_method_ids != dex_file->NumMethodIds()) {
       LOG(ERROR) << "Number of method ids in dex file and profile don't match."
@@ -1163,7 +1162,6 @@ bool ProfileCompilationInfo::VerifyProfileData(const std::vector<const DexFile*>
       }
     }
   }
-#endif
   return true;
 }
 
